@@ -1,0 +1,169 @@
+import java.nio.file.Paths
+
+plugins {
+    id 'com.android.application' version '8.13.0'
+    id 'org.jetbrains.kotlin.android' version '1.9.22'
+}
+
+def qnnSDKLocalPath= System.getenv("QAIRT_SDK_ROOT") ?: "C:\\Your\\Path\\To\\QAIRT\\qairt\\2.45.0.260326"
+
+def models = ["model"]
+def relAssetsPath = "src/main/assets/models"
+def buildDir = project.getLayout().getBuildDirectory()
+def libsDir = buildDir.dir("libs")
+
+android {
+    ndkVersion '27.3.13750724'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "ai.lpcv.actiondetection"
+
+        minSdk 31
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++17"
+                abiFilters "arm64-v8a"
+                arguments "-DQNN_SDK_ROOT_PATH=" + qnnSDKLocalPath.replace("\\", "/")
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
+        ndk {
+            abiFilters "arm64-v8a"
+        }
+        sourceSets {
+            main {
+                jniLibs.srcDir libsDir
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+
+    namespace "ai.lpcv.actiondetection"
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.5.10'
+    }
+
+    externalNativeBuild {
+        cmake {
+            path file("src/main/cpp/CMakeLists.txt")
+            version "3.22.1"
+        }
+    }
+    packagingOptions {
+        jniLibs.useLegacyPackaging = true
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libSNPE.so'
+        pickFirst 'lib/arm64-v8a/libSnpeHtpPrepare.so'
+    }
+    aaptOptions {
+        noCompress "dlc", "json"
+    }
+
+    preBuild.doFirst {
+        if (!qnnSDKLocalPath) {
+            throw new RuntimeException("Please download QAIRT SDK and set `qnnSDKLocalPath` in build.gradle.")
+        }
+
+        def qnnSDKFile = file(qnnSDKLocalPath)
+        if (!qnnSDKFile.exists()) {
+            throw new RuntimeException("QAIRT SDK does not exist at $qnnSDKFile.absolutePath.")
+        }
+
+        models.each { model ->
+            def dlcFile = file(Paths.get(relAssetsPath, "${model}.dlc"))
+            if (!dlcFile.exists()) {
+                throw new RuntimeException("Missing ${model}.dlc. Expected at ${dlcFile.absolutePath}")
+            }
+        }
+
+        def libsABIDir = buildDir.dir("libs/arm64-v8a")
+        def libsDirRoot = file("libs")
+        if (!libsDirRoot.exists()) libsDirRoot.mkdirs()
+
+        copy {
+            from qnnSDKLocalPath
+
+            include "**/lib/aarch64-android/libQnnHtp.so"
+            include "**/lib/aarch64-android/libQnnHtpPrepare.so"
+            include "**/lib/aarch64-android/libQnnCpu.so"
+            include "**/lib/aarch64-android/libQnnGpu.so"
+            include "**/lib/aarch64-android/libQnnSystem.so"
+            include "**/lib/aarch64-android/libQnnModelDlc.so"
+            include "**/lib/aarch64-android/libQnnSaver.so"
+            include "**/lib/hexagon-v**/unsigned/libQnnHtpV**Skel.so"
+            include "**/lib/aarch64-android/libQnnHtpV**Stub.so"
+
+            into libsABIDir
+            eachFile {
+                path = name
+            }
+            includeEmptyDirs = false
+        }
+
+        copy {
+            from qnnSDKLocalPath
+            include "**/lib/android/platform-validator.aar"
+            include "**/lib/android/snpe-release.aar"
+            into libsDirRoot
+            eachFile {
+                path = name
+            }
+            includeEmptyDirs = false
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ["*.jar", "*.aar"], dir: "libs")
+    implementation "androidx.appcompat:appcompat:1.7.0"
+    implementation "com.google.android.material:material:1.12.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.2.0"
+
+    implementation "androidx.core:core-ktx:1.13.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
+
+    // Compose
+    def composeBom = platform('androidx.compose:compose-bom:2024.05.00')
+    implementation composeBom
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-graphics'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.activity:activity-compose:1.9.0'
+
+    // Media3
+    implementation "androidx.media3:media3-exoplayer:1.3.1"
+    implementation "androidx.media3:media3-ui:1.3.1"
+
+    // CameraX
+    def camerax_version = "1.3.3"
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    implementation "androidx.camera:camera-view:${camerax_version}"
+
+    // Coil
+    implementation "io.coil-kt:coil-compose:2.6.0"
+}
