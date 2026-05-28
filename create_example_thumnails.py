@@ -1,14 +1,22 @@
 from pathlib import Path
 import math
-
 import torch
 import torchvision.transforms as transforms
 from torchvision.io import read_video
 from PIL import Image
 
+# =============================================================================
+# USER CONFIGURATION
+# =============================================================================
 
-DIR_NAME = Path("example_actions") # Directory containing the unique action videos
+# Directory containing the unique action videos
+# may be selected using `select_example_videos.py`
+DIR_NAME = Path("example_actions")
+
+# path to save thumbnails to
 OUTPUT_DIR = Path(f"thumbnails_{DIR_NAME.name}")
+
+# =============================================================================
 
 
 def sample_frames(video_path: Path, num_frames: int = 16) -> torch.Tensor:

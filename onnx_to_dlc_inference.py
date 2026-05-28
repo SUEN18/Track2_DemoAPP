@@ -8,20 +8,15 @@ import numpy as np
 # USER CONFIGURATION
 # =============================================================================
 
-ONNX_DIR = "job_jxxxxxxxx_qdq_onnx"
+ONNX_DIR = "job_jxxxxxxxx_qdq_onnx" # ONNX model directory, should contain model.onnx and model.data
 VIDEO_ONNX_NAME = "model.onnx"
 
-# Galaxy S25 device 
+# Set the device
 DEVICE_NAME = "Samsung Galaxy S25"
 
-# Input shape
-BATCH = 1
-C = 3
-T = 16
-H = 112
-W = 112
-
 # Input file (your preprocessed tensor)
+# Refer to the track 2 sample solution for the input format
+# https://github.com/lpcvai/26LPCVC_Track2_Sample_Solution/tree/main
 INPUT_NPY = "output.npy"
 
 # =============================================================================
@@ -64,9 +59,9 @@ def main():
         print(f"ONNX not found: {onnx_path}")
         sys.exit(1)
 
-    # =========================
+    # ==============================
     # LOAD ONNX
-    # =========================
+    # ==============================
     print("\nLoading ONNX model...")
     
     ## Option 1 - load ONNX from local file and validate it
@@ -82,21 +77,29 @@ def main():
     ## Option 2 - directly load ONNX from AI Hub (if you already uploaded it there)
     # model = qai_hub.get_model("mxxxxxxxx")
 
-    # =========================
+    # ==============================
     # DEVICE
-    # =========================
+    # ==============================
     device = qai_hub.Device(DEVICE_NAME)
 
-    # =========================
+    # ==============================
     # INPUT SPEC
-    # =========================
+    # ==============================
+    
+    # Input shape
+    BATCH = 1
+    C = 3
+    T = 16
+    H = 112
+    W = 112
+
     input_specs = {
         "video": ((BATCH, C, T, H, W), "float32")
     }
 
-    # =========================
+    # ==============================
     # COMPILE TO DLC
-    # =========================
+    # ==============================
     print("\nCompiling ONNX → DLC on AI Hub...")
 
     compile_job = compile_model(model, device, input_specs)
@@ -111,9 +114,9 @@ def main():
 
     print("DLC saved as model.dlc")
 
-    # =========================
+    # ==============================
     # LOAD INPUT
-    # =========================
+    # ==============================
     print("\nLoading input tensor...")
 
     x = np.load(INPUT_NPY).astype(np.float32)
@@ -122,9 +125,9 @@ def main():
     print("Input shape:", x.shape)
     print("dtype:", x.dtype)
 
-    # =========================
+    # ==============================
     # RUN INFERENCE
-    # =========================
+    # ==============================
     print(f"\nRunning inference on {DEVICE_NAME}")
 
     inference_job = run_inference(target_model, device, x)
@@ -132,9 +135,9 @@ def main():
     print("Inference Job ID:", inference_job.job_id)
     inference_job.wait()
 
-    # =========================
+    # ==============================
     # OUTPUT
-    # =========================
+    # ==============================
     results = inference_job.download_output_data()
 
     print("\n===== OUTPUTS =====")

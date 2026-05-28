@@ -3,12 +3,21 @@ import random
 import shutil
 from pathlib import Path
 
+# =============================================================================
+# USER CONFIGURATION
+# =============================================================================
+
 # Parent directory containing action_1, action_2, ...
+# This assumes that the QEVD dataset has been downloaded and formatted according
+# to the instructions in https://github.com/lpcvai/26LPCVC_Track2_Sample_Solution/tree/main
 videos_dir = Path("./train")
 
 # Output directory
 output_dir = Path("./example_actions")
 output_dir.mkdir(parents=True, exist_ok=True)
+
+# =============================================================================
+
 
 # Supported video extensions
 VIDEO_EXTENSIONS = {".mp4"}
