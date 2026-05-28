@@ -1,4 +1,4 @@
-package ai.lpcv.actiondetection.tutorial
+package ai.lpcv.actionrecognition.tutorial
 
 import android.content.Context
 import org.json.JSONObject

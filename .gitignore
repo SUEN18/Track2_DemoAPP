@@ -21,3 +21,6 @@ libs/
 
 # Memory dumps
 *.hprof
+
+# Release files
+release/

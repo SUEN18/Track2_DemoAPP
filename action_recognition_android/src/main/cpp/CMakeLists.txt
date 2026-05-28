@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22.1)
 
-project("action_detection_app")
+project("action_recognition_app")
 
 # QNN include path
 set(QNN_INCLUDE_PATH "${QNN_SDK_ROOT_PATH}/include/QNN")
@@ -10,7 +10,7 @@ include_directories(${QNN_WRAPPER_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(${CMAKE_PROJECT_NAME} SHARED
-        action_detection_engine.cpp
+        action_recognition_engine.cpp
         qnn_helper.cpp
         ${QNN_WRAPPER_DIR}/QnnModel.cpp
         ${QNN_WRAPPER_DIR}/QnnWrapperUtils.cpp

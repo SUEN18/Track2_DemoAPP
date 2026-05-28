@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <memory>
 
-#define TAG "ActionDetectionEngine"
+#define TAG "ActionRecognitionEngine"
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, TAG, __VA_ARGS__)
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)
 
@@ -19,17 +19,17 @@ struct EngineContext {
 };
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_ai_lpcv_actiondetection_ActionDetectionEngine_nativeInit(JNIEnv* env, jobject thiz) {
+Java_ai_lpcv_actionrecognition_ActionRecognitionEngine_nativeInit(JNIEnv* env, jobject thiz) {
     return reinterpret_cast<jlong>(new EngineContext());
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_ai_lpcv_actiondetection_ActionDetectionEngine_nativeRelease(JNIEnv* env, jobject thiz, jlong handle) {
+Java_ai_lpcv_actionrecognition_ActionRecognitionEngine_nativeRelease(JNIEnv* env, jobject thiz, jlong handle) {
     delete reinterpret_cast<EngineContext*>(handle);
 }
 
 extern "C" JNIEXPORT jboolean JNICALL
-Java_ai_lpcv_actiondetection_ActionDetectionEngine_nativeLoadModel(
+Java_ai_lpcv_actionrecognition_ActionRecognitionEngine_nativeLoadModel(
         JNIEnv* env,
         jobject thiz,
         jlong handle,
@@ -77,7 +77,7 @@ Java_ai_lpcv_actiondetection_ActionDetectionEngine_nativeLoadModel(
 }
 
 extern "C" JNIEXPORT jfloatArray JNICALL
-Java_ai_lpcv_actiondetection_ActionDetectionEngine_nativeDetectAction(JNIEnv* env, jobject thiz, jlong handle, jfloatArray input_tensors) {
+Java_ai_lpcv_actionrecognition_ActionRecognitionEngine_nativeDetectAction(JNIEnv* env, jobject thiz, jlong handle, jfloatArray input_tensors) {
     EngineContext* ctx = reinterpret_cast<EngineContext*>(handle);
 
     jsize len = env->GetArrayLength(input_tensors);

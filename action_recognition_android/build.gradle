@@ -5,7 +5,7 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.9.22'
 }
 
-def qnnSDKLocalPath= System.getenv("QAIRT_SDK_ROOT") ?: "C:\\Your\\Path\\To\\QAIRT\\qairt\\2.45.0.260326"
+def qnnSDKLocalPath= System.getenv("QAIRT_SDK_ROOT") ?: "C:\\Users\\zacks\\Downloads\\v2.45.0.260326\\qairt\\2.45.0.260326"
 
 def models = ["model"]
 def relAssetsPath = "src/main/assets/models"
@@ -17,7 +17,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "ai.lpcv.actiondetection"
+        applicationId "ai.lpcv.actionrecognition"
 
         minSdk 31
         targetSdk 34
@@ -55,7 +55,7 @@ android {
         jvmTarget = '11'
     }
 
-    namespace "ai.lpcv.actiondetection"
+    namespace "ai.lpcv.actionrecognition"
 
     buildFeatures {
         compose true

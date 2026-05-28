@@ -1,4 +1,4 @@
-package ai.lpcv.actiondetection;
+package ai.lpcv.actionrecognition;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -45,7 +45,11 @@ public class RealTimeActivity extends AppCompatActivity {
 
     private PreviewView viewFinder;
     private TextView tvResult;
+    private TextView tvInferenceTime;
     private JSONArray labels;
+
+    private int lensFacing = CameraSelector.LENS_FACING_BACK;
+    private ProcessCameraProvider cameraProvider;
 
     private ExecutorService inferenceExecutor;
     private final LinkedList<Bitmap> frameBuffer = new LinkedList<>();
@@ -72,9 +76,16 @@ public class RealTimeActivity extends AppCompatActivity {
 
         viewFinder = findViewById(R.id.viewFinder);
         tvResult = findViewById(R.id.tvResult);
+        tvInferenceTime = findViewById(R.id.tvInferenceTime);
         ImageButton btnClose = findViewById(R.id.btnClose);
+        ImageButton btnFlipCamera = findViewById(R.id.btnFlipCamera);
 
         btnClose.setOnClickListener(v -> finish());
+        btnFlipCamera.setOnClickListener(v -> {
+            lensFacing = (lensFacing == CameraSelector.LENS_FACING_BACK) ? 
+                         CameraSelector.LENS_FACING_FRONT : CameraSelector.LENS_FACING_BACK;
+            startCamera();
+        });
 
         inferenceExecutor = Executors.newSingleThreadExecutor();
 
@@ -130,16 +141,19 @@ public class RealTimeActivity extends AppCompatActivity {
 
         cameraProviderFuture.addListener(() -> {
             try {
-                ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+                cameraProvider = cameraProviderFuture.get();
 
                 Preview preview = new Preview.Builder().build();
                 preview.setSurfaceProvider(viewFinder.getSurfaceProvider());
 
-                CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
+                CameraSelector cameraSelector = new CameraSelector.Builder()
+                        .requireLensFacing(lensFacing)
+                        .build();
 
                 cameraProvider.unbindAll();
                 cameraProvider.bindToLifecycle(this, cameraSelector, preview);
                 
+                mainHandler.removeCallbacks(captureRunnable);
                 mainHandler.post(captureRunnable);
 
             } catch (ExecutionException | InterruptedException e) {
@@ -198,13 +212,17 @@ public class RealTimeActivity extends AppCompatActivity {
             }
         }
 
+        long startTime = System.currentTimeMillis();
         float[] output = MainActivity.engine.detectAction(tensor);
+        long endTime = System.currentTimeMillis();
+        final long inferenceTime = endTime - startTime;
+
         if (output != null) {
-            displayResults(output);
+            displayResults(output, inferenceTime);
         }
     }
 
-    private void displayResults(float[] output) {
+    private void displayResults(float[] output, long inferenceTime) {
         List<Prediction> predictions = new ArrayList<>();
         for (int i = 0; i < output.length; i++) {
             String label = getLabel(i);
@@ -227,7 +245,10 @@ public class RealTimeActivity extends AppCompatActivity {
             }
         }
         
-        runOnUiThread(() -> tvResult.setText(ssb));
+        runOnUiThread(() -> {
+            tvResult.setText(ssb);
+            tvInferenceTime.setText(String.format(Locale.US, "Inference Time: %d ms", inferenceTime));
+        });
     }
 
     private String getLabel(int index) {

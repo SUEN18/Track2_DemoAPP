@@ -1,4 +1,4 @@
-package ai.lpcv.actiondetection.tutorial
+package ai.lpcv.actionrecognition.tutorial
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
@@ -40,7 +40,7 @@ fun TutorialScreen(onBack: () -> Unit) {
         Scaffold(
             topBar = {
                 Surface(
-                    color = MaterialTheme.colorScheme.primary,
+                    color = Color(0xFF3253DC),
                     modifier = Modifier.fillMaxWidth().height(56.dp)
                 ) {
                     Box(modifier = Modifier.fillMaxSize()) {
@@ -56,7 +56,7 @@ fun TutorialScreen(onBack: () -> Unit) {
                         }
                         
                         Text(
-                            text = "Action Tutorial",
+                            text = "Action Recognition",
                             style = MaterialTheme.typography.titleLarge,
                             color = Color.White,
                             maxLines = 1,

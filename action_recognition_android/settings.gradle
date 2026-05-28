@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "action_detection_android"
+rootProject.name = "action_recognition_android"

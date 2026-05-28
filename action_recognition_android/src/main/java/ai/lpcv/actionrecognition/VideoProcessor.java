@@ -1,4 +1,4 @@
-package ai.lpcv.actiondetection;
+package ai.lpcv.actionrecognition;
 
 import android.content.Context;
 import android.graphics.Bitmap;

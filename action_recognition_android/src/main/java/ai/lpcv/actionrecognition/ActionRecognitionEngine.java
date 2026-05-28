@@ -1,19 +1,19 @@
-package ai.lpcv.actiondetection;
+package ai.lpcv.actionrecognition;
 
 import android.graphics.Bitmap;
 import android.util.Log;
 import java.util.List;
 
-public class ActionDetectionEngine {
-    private static final String TAG = "ActionDetectionEngine";
+public class ActionRecognitionEngine {
+    private static final String TAG = "ActionRecognitionEngine";
 
     static {
-        System.loadLibrary("action_detection_app");
+        System.loadLibrary("action_recognition_app");
     }
 
     private long nativeHandle;
 
-    public ActionDetectionEngine() {
+    public ActionRecognitionEngine() {
         nativeHandle = nativeInit();
     }
 

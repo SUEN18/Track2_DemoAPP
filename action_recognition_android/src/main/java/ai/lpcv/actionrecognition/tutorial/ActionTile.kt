@@ -1,4 +1,4 @@
-package ai.lpcv.actiondetection.tutorial
+package ai.lpcv.actionrecognition.tutorial
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable

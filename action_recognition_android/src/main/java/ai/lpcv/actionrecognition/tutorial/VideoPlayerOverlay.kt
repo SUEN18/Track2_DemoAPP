@@ -1,4 +1,4 @@
-package ai.lpcv.actiondetection.tutorial
+package ai.lpcv.actionrecognition.tutorial
 
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background

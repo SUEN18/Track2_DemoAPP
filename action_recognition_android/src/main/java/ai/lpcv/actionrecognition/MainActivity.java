@@ -1,4 +1,4 @@
-package ai.lpcv.actiondetection;
+package ai.lpcv.actionrecognition;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -29,11 +29,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import android.content.Intent;
-import ai.lpcv.actiondetection.tutorial.TutorialActivity;
+import ai.lpcv.actionrecognition.tutorial.TutorialActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    public static ActionDetectionEngine engine;
+    public static ActionRecognitionEngine engine;
     private TextView tvStatus;
     private TextView tvResult;
     private ImageView ivPreview;
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initEngine() {
-        engine = new ActionDetectionEngine();
+        engine = new ActionRecognitionEngine();
         String modelPath = copyAssetToFile("models/model.dlc");
         String nativeLibPath = getApplicationInfo().nativeLibraryDir;
         

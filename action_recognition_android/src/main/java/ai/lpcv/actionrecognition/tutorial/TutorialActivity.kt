@@ -1,4 +1,4 @@
-package ai.lpcv.actiondetection.tutorial
+package ai.lpcv.actionrecognition.tutorial
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
