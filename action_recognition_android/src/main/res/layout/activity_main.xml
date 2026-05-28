@@ -136,11 +136,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Detection Results"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:layout_marginBottom="12dp"
+                android:text="Recognition Results"
                 android:textColor="@color/primary"
-                android:layout_marginBottom="12dp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <ScrollView
                 android:layout_width="match_parent"
