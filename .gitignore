@@ -1,0 +1,24 @@
+# Build artifacts
+build/
+.gradle/
+.cxx/
+capture/
+
+# Local configuration
+local.properties
+
+# IDE settings
+.idea/
+*.iml
+.DS_Store
+
+# Native build artifacts
+obj/
+bin/
+
+# SDK libraries (copied during build)
+libs/platform-validator.aar
+libs/snpe-release.aar
+
+# Memory dumps
+*.hprof
