@@ -16,9 +16,8 @@ local.properties
 obj/
 bin/
 
-# SDK libraries (copied during build)
-libs/platform-validator.aar
-libs/snpe-release.aar
+# SDK libraries
+libs/
 
 # Memory dumps
 *.hprof
