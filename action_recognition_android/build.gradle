@@ -4,8 +4,8 @@ plugins {
     id 'com.android.application' version '8.13.0'
     id 'org.jetbrains.kotlin.android' version '1.9.22'
 }
-
-def qnnSDKLocalPath= System.getenv("QAIRT_SDK_ROOT") ?: "C:\\Users\\zacks\\Downloads\\v2.45.0.260326\\qairt\\2.45.0.260326"
+//Replace below with your QAIRT path
+def qnnSDKLocalPath= System.getenv("QAIRT_SDK_ROOT") ?: "C:\\Your\\Path\\To\\QAIRT\\qairt\\2.45.0.260326"
 
 def models = ["model"]
 def relAssetsPath = "src/main/assets/models"
