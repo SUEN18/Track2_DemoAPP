@@ -1,3 +1,28 @@
+"""
+ONNX → DLC Compilation and Inference Pipeline (Qualcomm AI Hub)
+
+This script performs end-to-end deployment of an action recognition model:
+
+Pipeline:
+1. Load ONNX model from local directory
+2. Validate ONNX structure
+3. Compile ONNX model into Qualcomm DLC format using AI Hub
+4. Deploy compiled model to a target Snapdragon device
+5. Run inference on a preprocessed input tensor (.npy)
+6. Extract and display top-5 predictions
+
+Inputs:
+- ONNX model directory containing model.onnx
+- Preprocessed input tensor (output.npy) in shape [1, 3, 16, 112, 112]
+
+Outputs:
+- model.dlc (compiled Qualcomm model)
+- Console inference results (top-5 predictions)
+
+Target:
+- Qualcomm Snapdragon devices via QAI Hub (e.g., Galaxy S25)
+"""
+
 import qai_hub
 import onnx
 import os

@@ -1,3 +1,22 @@
+"""
+QEVD Action Video Sampler and Label Mapper
+
+This script constructs an example dataset from the QEVD action recognition dataset.
+
+It performs the following steps:
+1. Traverses a directory structured by action classes (action_1, action_2, ...)
+2. Randomly selects one video from each class
+3. Copies selected videos into a flat directory for UI/demo usage
+4. Generates a JSON mapping from action label → selected video filename
+
+Inputs:
+- Source dataset root (structured by action class folders)
+
+Outputs:
+- example_actions/ (sampled videos)
+- label_videos.json (label → video mapping)
+"""
+
 import json
 import random
 import shutil
@@ -9,7 +28,7 @@ from pathlib import Path
 
 # Parent directory containing action_1, action_2, ...
 # This assumes that the QEVD dataset has been downloaded and formatted according
-# to the instructions in https://github.com/lpcvai/26LPCVC_Track2_Sample_Solution/tree/main
+# to the instructions in https://github.com/lpcvai/26LPCVC_Track2_Sample_Solution
 videos_dir = Path("./train")
 
 # Output directory

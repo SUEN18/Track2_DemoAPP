@@ -1,3 +1,26 @@
+"""
+Thumbnail Generator for Action Recognition Dataset
+
+This script processes a directory of action videos and generates
+16-frame grid thumbnails for visualization and dataset inspection.
+
+Functionality:
+- Loads MP4 videos from an input directory
+- Samples 16 representative frames per video using temporal rules:
+    * >4s: use first 4 seconds
+    * 2–4s: uniform sampling
+    * <2s: loop video then sample
+- Resizes frames to 256×256
+- Converts frames into a 4x4 grid image
+- Saves output thumbnails as JPEG images
+
+Input:
+- Directory of .mp4 videos
+
+Output:
+- Folder of grid thumbnails (one per video)
+"""
+
 from pathlib import Path
 import math
 import torch
