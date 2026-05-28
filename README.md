@@ -94,6 +94,7 @@ The app comes pre-packaged with baseline assets configured out-of-the-box using 
 - [2] S. Panchal, A. Bhattacharyya, G. Berger, A. Mercier, C. Böhm, F. Dietrichkeit, R. Pourreza, X. Li, P. Maden, M. Lee, M. Todorovich, I. Bax, and R. Memisevic, "Live Fitness Coaching as a Testbed for Situated Interaction," 2024.
 
 
+
 [2026 IEEE Low-Power Computer Vision Challenge (LPCVC)]: https://lpcv.ai
 
 [release APK]: https://drive.google.com/file/d/1jzuKTN39_cUJEygZAIcDVaONEy7DgIxx/view?usp=drive_link
