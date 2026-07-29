@@ -101,7 +101,12 @@ The app comes pre-packaged with baseline assets configured out-of-the-box using 
 
 - [2] S. Panchal, A. Bhattacharyya, G. Berger, A. Mercier, C. Böhm, F. Dietrichkeit, R. Pourreza, X. Li, P. Maden, M. Lee, M. Todorovich, I. Bax, and R. Memisevic, "Live Fitness Coaching as a Testbed for Situated Interaction," 2024.
 
+---
 
+## Acknowledgements
+This material is based upon work supported by the National Science Foundation under Grant Number 2504445. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.
+
+---
 
 [2026 IEEE Low-Power Computer Vision Challenge (LPCVC)]: https://lpcv.ai
 
